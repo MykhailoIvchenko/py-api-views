@@ -1,12 +1,12 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework import status, viewsets
+from rest_framework import status, generics, mixins
 from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404
 
 from cinema.models import Movie, Genre, Actor
-from cinema.serializers import MovieSerializer, GenreSerializer
+from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer
 
 
 class GenreList(APIView):
@@ -52,6 +52,39 @@ class GenreDetail(APIView):
     def delete(self, request, pk: int) -> Response:
         self.get_object(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ActorList(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs) -> Response:
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs) -> Response:
+        return self.create(request, *args, **kwargs)
+
+
+class ActorDetail(
+    generics.GenericAPIView,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+):
+    queryset = Actor.objects.all()
+    serializer_class = ActorSerializer
+
+    def get(self, request, *args, **kwargs) -> Response:
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs) -> Response:
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs) -> Response:
+        return self.patch(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs) -> Response:
+        return self.destroy(request, *args, **kwargs)
 
 
 @api_view(["GET", "POST"])
