@@ -19,5 +19,5 @@ class ActorAdmin(admin.ModelAdmin):
 
 
 @admin.register(CinemaHall)
-class ActorAdmin(admin.ModelAdmin):
+class CinemaHallAdmin(admin.ModelAdmin):
     pass
