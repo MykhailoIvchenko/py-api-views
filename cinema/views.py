@@ -87,12 +87,12 @@ class ActorDetail(
         return self.destroy(request, *args, **kwargs)
 
 
-class CinemaHallList(generics.ListCreateAPIView):
+class CinemaHallList(viewsets.GenericViewSet, mixins.ListModelMixin, mixins.CreateModelMixin):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
 
-class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
+class CinemaHallDetail(viewsets.GenericViewSet, mixins.RetrieveModelMixin):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
 
