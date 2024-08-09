@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 
 from django.shortcuts import get_object_or_404
 
-from cinema.models import Movie, Genre, Actor
-from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer
+from cinema.models import Movie, Genre, Actor, CinemaHall
+from cinema.serializers import MovieSerializer, GenreSerializer, ActorSerializer, CinemaHallSerializer
 
 
 class GenreList(APIView):
@@ -85,6 +85,16 @@ class ActorDetail(
 
     def delete(self, request, *args, **kwargs) -> Response:
         return self.destroy(request, *args, **kwargs)
+
+
+class CinemaHallList(generics.ListCreateAPIView):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
+
+
+class CinemaHallDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = CinemaHall.objects.all()
+    serializer_class = CinemaHallSerializer
 
 
 @api_view(["GET", "POST"])
